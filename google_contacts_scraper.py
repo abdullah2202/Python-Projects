@@ -21,4 +21,5 @@ for div in searchDivs:
     alink = div.select('a')
     if(len(alink) >= 1):
         link = alink[0]
-        print(link['href'])
+        urls.append(link['href'])
+
