@@ -1,10 +1,12 @@
+from importlib.machinery import SourceFileLoader
 import tkinter as tk
 from tkinter import filedialog
-from PIL import Image
 from creds import tinfiy_api
 import tinify
 
 tinify.key = tinfiy_api.tf_api
+
+
 
 root = tk.Tk()
 canvas1 = tk.Canvas(root, width=300, height=250, bg='azure3', relief='raised')
@@ -15,18 +17,19 @@ label1.config(font=('helvetica', 20))
 canvas1.create_window(150, 60, window=label1)
 
 def getPNG():
-    global im1
+    global source
     import_file_path = filedialog.askopenfilename()
-    im1 = Image.open(import_file_path)
+    source = tinify.from_file(import_file_path)
 
 browse_png = tk.Button(text="Select Image file", command=getPNG, bg="royalblue", fg='white', font=('helvetica', 12, 'bold'))
 canvas1.create_window(150, 130, window=browse_png)
 
 def convert():
-    global im1
-    export_file_path = filedialog.asksaveasfilename(defaultextension='.jpg')
-    im1.save(export_file_path)
+    global source
+    export_file_path = filedialog.asksaveasfilename(defaultextension='.png')
+    source.to_file(export_file_path)
 
-saveasbutton = tk.Button(text="Convert PNG to JPG", command=convert, bg='royalblue', fg='white', font=('helvetica', 12, 'bold'))
+
+saveasbutton = tk.Button(text="Tinify to PNG", command=convert, bg='royalblue', fg='white', font=('helvetica', 12, 'bold'))
 canvas1.create_window(150, 180, window=saveasbutton)
 root.mainloop()
